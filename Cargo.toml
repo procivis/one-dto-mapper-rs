@@ -1,0 +1,16 @@
+[package]
+name = "dto_mapper"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+darling = { version = "0.20.3" }
+syn = { version = "2.0.38" }
+proc-macro2 = { version = "1.0.69" }
+quote = { version = "1.0.33" }
+
+[dev-dependencies]
+trybuild = { version = "1.0.49", features = ["diff"] }
