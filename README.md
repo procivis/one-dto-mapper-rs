@@ -1,7 +1,7 @@
 Derives `From` implementation for types with similar shape.
-See [examples]() for how to use it.
+See [examples](./examples) for how to use it.
 
 Add to your `Cargo.toml`
 ```toml
-dto-mapper-rs = { git = "ssh://..." }
+dto_mapper = { git = "ssh://git@gitlab.procivis.ch:procivis/one/dto-mapper-rs.git" }
 ```
