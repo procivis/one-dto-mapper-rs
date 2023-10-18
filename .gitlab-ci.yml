@@ -1,0 +1,18 @@
+image: rust:1.73.0-slim-buster
+
+
+stages:
+  - test
+  - linter
+
+
+tests:
+  stage: test
+  script:
+    - cargo test --all-targets
+
+linter:clippy:
+  stage: linter
+  script:
+    - rustup component add clippy
+    - cargo clippy --lib --tests -- -D warnings
