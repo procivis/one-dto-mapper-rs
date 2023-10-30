@@ -59,6 +59,45 @@ fn test_nested_struct() {
 }
 
 #[test]
+fn test_with_fn_struct() {
+    #[derive(Clone)]
+    struct Name {
+        first: String,
+    }
+
+    #[derive(From)]
+    #[convert(from = "Name", into = "Name")]
+    struct Name2 {
+        #[convert(with_fn = "convert_name")]
+        first: String,
+    }
+
+    fn convert_name(value: String) -> String {
+        value
+    }
+
+    #[derive(From)]
+    #[convert(from = "Name", into = "Name")]
+    struct Name3 {
+        #[convert(with_fn_ref = "convert_name_ref")]
+        first: String,
+    }
+
+    fn convert_name_ref(value: &String) -> String {
+        value.to_owned()
+    }
+
+    let x: Name = Name2 {
+        first: "xyz".to_string(),
+    }
+    .into();
+
+    let _: Name2 = x.to_owned().into();
+
+    let _: Name3 = x.into();
+}
+
+#[test]
 fn test_unit_enum() {
     enum SimpleY {
         A,
