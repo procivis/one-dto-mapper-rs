@@ -7,9 +7,8 @@ struct PersonDto {
 }
 enum GenderDto {
     M,
-    F
+    F,
 }
-
 
 #[derive(From)]
 #[convert(into = PersonDto)]
