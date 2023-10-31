@@ -145,7 +145,7 @@ fn named_struct_codegen(
 
         get_conversion_call::get_conversion_call(
             &value_ident,
-            &field_name,
+            field_name,
             &field.with_fn,
             &field.with_fn_ref,
         )
