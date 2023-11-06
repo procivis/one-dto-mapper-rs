@@ -1,10 +1,7 @@
 use dto_mapper::From;
 enum User {
     Anonymous,
-    User1 {
-        name: String,
-        surname: String,
-    },
+    User1 { name: String, surname: String },
     User2(User2),
 }
 
@@ -16,10 +13,7 @@ struct User2 {
 #[convert(from = "User")]
 enum UserDto {
     Anonymous,
-    User1 {
-        name: String,
-        surname: String,
-    },
+    User1 { name: String, surname: String },
     User2(User2),
 }
 
@@ -34,7 +28,7 @@ struct Token(String);
 impl From<String> for Token {
     fn from(value: String) -> Self {
         Self(value)
-    } 
+    }
 }
 
 fn main() {
