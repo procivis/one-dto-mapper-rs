@@ -1,4 +1,3 @@
-
 use dto_mapper::From;
 
 #[derive(From)]
@@ -16,7 +15,6 @@ struct Y {
 }
 
 fn main() {
-
     let x = X {
         a: "A".to_string(),
         b: 100.0,

@@ -6,6 +6,8 @@ use darling::{FromDeriveInput, FromField, FromVariant, ToTokens};
 use quote::{format_ident, quote};
 use syn::{parse_macro_input, DeriveInput, ImplGenerics, WhereClause};
 
+mod field_conversion_codegen;
+
 // TODO:
 // - add examples
 // - improve tests
@@ -95,10 +97,27 @@ struct EnumData {
 }
 
 #[derive(Debug, FromField)]
-#[darling(attributes(convert))]
+#[darling(
+    attributes(convert),
+    and_then = "Self::validate_with_fn_and_with_fn_ref"
+)]
 struct FieldsData {
     ident: Option<syn::Ident>,
     skip: Flag,
+    with_fn: Option<syn::Path>,
+    with_fn_ref: Option<syn::Path>,
+}
+
+impl FieldsData {
+    fn validate_with_fn_and_with_fn_ref(self) -> darling::Result<Self> {
+        if self.with_fn.is_some() && self.with_fn_ref.is_some() {
+            return Err(darling::Error::custom(
+                "Only one can be used: (with_fn,with_fn_ref)",
+            ));
+        }
+
+        Ok(self)
+    }
 }
 
 struct CodegenArgs<'a> {
@@ -124,7 +143,12 @@ fn named_struct_codegen(
         // safe to unwrap since we allow only named structs
         let field_name = field.ident.as_ref().unwrap();
 
-        quote!(#field_name: #value_ident.#field_name.into())
+        field_conversion_codegen::field_conversion_codegen(
+            &value_ident,
+            field_name,
+            &field.with_fn,
+            &field.with_fn_ref,
+        )
     });
 
     quote! {
