@@ -6,7 +6,7 @@ use darling::{FromDeriveInput, FromField, FromVariant, ToTokens};
 use quote::{format_ident, quote};
 use syn::{parse_macro_input, DeriveInput, ImplGenerics, WhereClause};
 
-mod get_conversion_call;
+mod field_conversion_codegen;
 
 // TODO:
 // - add examples
@@ -143,7 +143,7 @@ fn named_struct_codegen(
         // safe to unwrap since we allow only named structs
         let field_name = field.ident.as_ref().unwrap();
 
-        get_conversion_call::get_conversion_call(
+        field_conversion_codegen::field_conversion_codegen(
             &value_ident,
             field_name,
             &field.with_fn,
