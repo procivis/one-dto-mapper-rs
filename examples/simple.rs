@@ -5,6 +5,7 @@ struct PersonDto {
     age: u16,
     gender: GenderDto,
 }
+
 enum GenderDto {
     M,
     F,
