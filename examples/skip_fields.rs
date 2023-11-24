@@ -14,6 +14,24 @@ struct Y {
     b: f32,
 }
 
+enum User {
+    Bar,
+    Foo { name: String, surname: String },
+}
+
+#[derive(From)]
+#[convert(into = "User")]
+enum UserDto {
+    Bar,
+    Foo {
+        name: String,
+        surname: String,
+
+        #[convert(skip)]
+        age: Option<u16>,
+    },
+}
+
 fn main() {
     let x = X {
         a: "A".to_string(),
