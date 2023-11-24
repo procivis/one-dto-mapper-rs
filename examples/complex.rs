@@ -1,4 +1,5 @@
 use dto_mapper::From;
+
 enum User {
     Anonymous,
     User1 { name: String, surname: String },
