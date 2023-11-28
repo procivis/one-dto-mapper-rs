@@ -14,6 +14,8 @@ pub(crate) struct FieldsData {
     pub(crate) from_unwrap_or: Option<syn::Expr>,
     pub(crate) with_fn: Option<syn::Path>,
     pub(crate) with_fn_ref: Option<syn::Path>,
+    pub(crate) rename: Option<syn::Ident>,
+    pub(crate) replace: Option<syn::Expr>,
 }
 
 impl FieldsData {
