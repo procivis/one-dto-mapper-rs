@@ -9,7 +9,7 @@ dto_mapper = { git = "ssh://git@gitlab.procivis.ch:procivis/one/dto-mapper-rs.gi
 
 ## Mapping `Optional<T>` into `T`
 
-unwrap_or, into_unwrap_or and from_unwrap_or attributes can be used to map `Optional<T>` into `T` using default value.
+`unwrap_or`, `into_unwrap_or` and `from_unwrap_or` attributes can be used to map `Optional<T>` into `T` using default value.
 
 Example:
 
@@ -29,3 +29,51 @@ struct FromOptionalDto {
 `age` in `FromOptionalDto` will be set to `16` if original value is `None`. More examples can be found [here](examples/unwrap_or_value.rs).
 
 This attribute cannot be combined with `with_fn` or `with_fn_ref` attributes.
+
+## Field renaming
+
+The `rename` attribute can be used in cases where the field name is different across structures.
+
+Example:
+
+```rust
+struct PersonDto {
+    name: String,
+}
+
+#[derive(From)]
+#[convert(into = PersonDto, from = PersonDto)]
+struct AnotherPerson {
+    #[convert(rename = "name")]
+    full_name: String,
+}
+```
+
+In this case `full_name` will be mapped to `name`.
+
+More examples can be found [here](examples/rename.rs).
+
+## Default value for field
+
+The `replace` attribute can be used in cases where the source data type does not have any value to be used as a source for mapping. In this case, you can specify a static value that will always be used instead.
+
+Example:
+
+```rust
+struct PersonDto {
+    name: String,
+}
+
+#[derive(From)]
+#[convert(from = PersonDto)]
+struct FromPerson {
+    name: String,
+
+    #[convert(replace = "0u16")]
+    age: u16,
+}
+```
+
+In this case `age` will be allways assigned `0` when `FromPerson` is created from `PersonDto`.
+
+More examples can be found [here](examples/replace.rs).
