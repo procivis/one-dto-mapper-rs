@@ -41,10 +41,24 @@ pub(crate) fn enum_codegen(
             let fields_mapping = fields
                 .fields
                 .iter()
-                .filter(|field| !field.skip.is_present())
+                .filter(|f| match conversion {
+                    Conversion::Into => !f.skip.is_present(),
+                    Conversion::From => true,
+                })
                 .map(|field| {
-                    let field_name = field.ident.as_ref().unwrap();
-                    let mut field_path = quote!(#field_name);
+                    let left_field_name = match conversion {
+                        Conversion::Into => field.rename.as_ref().or(field.ident.as_ref()),
+                        Conversion::From => field.ident.as_ref(),
+                    }
+                    .unwrap();
+
+                    let right_field_name = match conversion {
+                        Conversion::Into => field.ident.as_ref(),
+                        Conversion::From => field.rename.as_ref().or(field.ident.as_ref()),
+                    }
+                    .unwrap();
+
+                    let mut field_path = quote!(#right_field_name);
 
                     let unwrap_or = field.unwrap_or.as_ref();
 
@@ -55,10 +69,15 @@ pub(crate) fn enum_codegen(
                     .map(|unwrap_or| generate_unwrap_or(&field_path, unwrap_or))
                     .unwrap_or(field_path);
 
-                    let conversion =
-                        generate_field_conversion(&field_path, &field.with_fn, &field.with_fn_ref);
-
-                    quote!(#field_name: #conversion)
+                    let conversion = match &field.replace {
+                        Some(expr) => quote!(#expr.into()),
+                        None => generate_field_conversion(
+                            &field_path,
+                            &field.with_fn,
+                            &field.with_fn_ref,
+                        ),
+                    };
+                    quote!(#left_field_name: #conversion)
                 });
 
             quote! {
