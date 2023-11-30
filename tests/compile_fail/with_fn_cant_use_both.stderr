@@ -1,4 +1,4 @@
-error: Only one can be used: (with_fn,with_fn_ref) at age
+error: Only one can be used: (with_fn, with_fn_ref) at age
  --> tests/compile_fail/with_fn_cant_use_both.rs:7:10
   |
 7 | #[derive(From)]
