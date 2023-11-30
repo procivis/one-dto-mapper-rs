@@ -1,4 +1,4 @@
-Derives `From` implementation for types with similar shape.
+Derives [`From`](https://doc.rust-lang.org/std/convert/trait.From.html) and [`TryFrom`](https://doc.rust-lang.org/std/convert/trait.TryFrom.html) implementations for types with similar shape.
 See [examples](./examples) for how to use it.
 
 Add to your `Cargo.toml`
@@ -6,6 +6,8 @@ Add to your `Cargo.toml`
 ```toml
 dto_mapper = { git = "ssh://git@gitlab.procivis.ch:procivis/one/dto-mapper-rs.git" }
 ```
+
+# Infallible conversions
 
 ## Mapping `Optional<T>` into `T`
 
@@ -26,7 +28,7 @@ struct FromOptionalDto {
 }
 ```
 
-`age` in `FromOptionalDto` will be set to `16` if original value is `None`. More examples can be found [here](examples/unwrap_or_value.rs).
+`age` in `FromOptionalDto` will be set to `16` if original value is `None`. More examples can be found [here](examples/into_and_from/unwrap_or_value.rs) and [here](examples/try_into_and_try_from/unwrap_or_value.rs).
 
 This attribute cannot be combined with `with_fn` or `with_fn_ref` attributes.
 
@@ -51,7 +53,7 @@ struct AnotherPerson {
 
 In this case `full_name` will be mapped to `name`.
 
-More examples can be found [here](examples/rename.rs).
+More examples can be found [here](examples/into_and_from/rename.rs) and [here](examples/try_into_and_try_from/rename.rs).
 
 ## Default value for field
 
@@ -76,4 +78,32 @@ struct FromPerson {
 
 In this case `age` will be allways assigned `0` when `FromPerson` is created from `PersonDto`.
 
-More examples can be found [here](examples/replace.rs).
+More examples can be found [here](examples/into_and_from/replace.rs) and [here](examples/try_into_and_try_from/replace.rs).
+
+# Failable conversions
+
+`TryFrom` and `TryInto` macros can be used to generate failable conversions using [`TryFrom`](https://doc.rust-lang.org/std/convert/trait.TryFrom.html) trait. They support the same feature set as `From` macro. Examples can be found [here](./examples/try_into_and_try_from).
+
+## Force infallible conversion
+
+`infallible` attribute can be used nn cases when infallible conversion should be used.
+
+Example:
+
+```rust
+struct PersonDto {
+    name: String,
+    age: u16,
+}
+
+#[derive(TryFrom)]
+#[try_from(T = PersonDto, Error = String)]
+struct Person {
+    name: UserName,
+
+    #[try_from(infallible)]
+    age: u16,
+}
+```
+
+In this case `age` will be converted using `From` trait instead of `TryFrom`.
