@@ -24,6 +24,7 @@ struct IntoNonOptionalDto {
 
 enum SomeEnumDto {
     Val { age: u16 },
+    OtherValue(u16),
 }
 
 #[derive(From)]
@@ -33,6 +34,7 @@ enum IntoSomeEnumDto {
         #[convert(unwrap_or = "16")]
         age: Option<u16>,
     },
+    OtherValue(#[convert(unwrap_or = "16")] Option<u16>),
 }
 
 #[derive(From)]
