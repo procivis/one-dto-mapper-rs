@@ -1,0 +1,105 @@
+use darling::ast::Data;
+use darling::FromDeriveInput;
+use quote::{quote, ToTokens};
+
+use crate::common::enums::EnumData;
+use crate::common::{Codegen, Context, Conversion};
+
+mod fields;
+
+#[derive(Debug, FromDeriveInput)]
+#[darling(
+    attributes(try_from),
+    supports(struct_named, enum_unit, enum_named, enum_newtype),
+    and_then = "Self::validate"
+)]
+pub(crate) struct TryFromInputReceiver {
+    ident: syn::Ident,
+    generics: syn::Generics,
+    data: Data<EnumData<fields::FieldsData>, fields::FieldsData>,
+
+    #[darling(rename = "T")]
+    type_: Option<syn::Path>,
+    #[darling(rename = "Error")]
+    error: Option<syn::Path>,
+}
+
+impl TryFromInputReceiver {
+    fn validate(self) -> darling::Result<Self> {
+        if self.type_.is_none() {
+            return Err(darling::Error::custom(
+                r#"Missing attribute '#[try_from(T = "...")]'"#,
+            ));
+        }
+
+        if self.error.is_none() {
+            return Err(darling::Error::custom(
+                r#"Missing attribute '#[try_from(Error = "...")]'"#,
+            ));
+        }
+
+        Ok(self)
+    }
+}
+
+impl ToTokens for TryFromInputReceiver {
+    fn to_tokens(&self, tokens: &mut proc_macro2::TokenStream) {
+        let TryFromInputReceiver {
+            ident,
+            generics,
+            data,
+            type_,
+            error,
+        } = self;
+
+        let (impl_generics, type_generics, where_clause) = generics.split_for_impl();
+
+        let from_ident = quote!(#type_);
+        let into_ident = quote!(#ident #type_generics);
+
+        let context = Context {
+            from_ident: from_ident.clone(),
+            conversion: Conversion::From,
+        };
+
+        let body = match data {
+            Data::Enum(enum_data) => {
+                let entries = enum_data.iter().map(|entry| entry.generate(&context));
+                quote! {
+                    match __value {
+                        #(#entries),*
+                    }
+                }
+            }
+            Data::Struct(struct_data) => {
+                let names = struct_data
+                    .iter()
+                    .filter_map(|entry| entry.generate_names(&context));
+                let conversions = struct_data
+                    .iter()
+                    .filter_map(|entry| entry.generate_conversion(&context));
+
+                quote! {
+                    match __value {
+                        #from_ident {
+                            #(#names),*
+                            ,..
+                        } => Self {
+                            #(#conversions),*
+                        }
+                    }
+                }
+            }
+        };
+
+        tokens.extend(quote! {
+            impl #impl_generics TryFrom<#from_ident> for #into_ident #where_clause {
+                type Error = #error;
+
+                fn try_from(__value: #from_ident) -> Result<Self, Self::Error> {
+                    Ok(#body)
+                }
+            }
+        })
+    }
+}
