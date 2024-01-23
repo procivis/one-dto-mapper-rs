@@ -1,7 +1,0 @@
-error: `unwrap_or` can be used only with a single `from` or `into`. If you need both `from` and `into` use `into_unwrap_or` or `from_unwrap_or`
- --> tests/compile_fail/unwrap_or_cant_be_used_with_into_and_from.rs:7:10
-  |
-7 | #[derive(From)]
-  |          ^^^^
-  |
-  = note: this error originates in the derive macro `From` (in Nightly builds, run with -Z macro-backtrace for more info)

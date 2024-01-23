@@ -1,7 +1,0 @@
-error: `unwrap_or`, `into_unwrap_or` and `from_unwrap_or` cannot be used together with `with_fn` or `with_fn_ref` at age
- --> tests/compile_fail/unwrap_or_cant_be_used_with_with_fn.rs:7:10
-  |
-7 | #[derive(From)]
-  |          ^^^^
-  |
-  = note: this error originates in the derive macro `From` (in Nightly builds, run with -Z macro-backtrace for more info)
