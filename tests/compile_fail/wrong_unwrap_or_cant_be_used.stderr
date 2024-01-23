@@ -1,7 +1,0 @@
-error: `into_unwrap_or` can be used only when `into` is specified
- --> tests/compile_fail/wrong_unwrap_or_cant_be_used.rs:7:10
-  |
-7 | #[derive(From)]
-  |          ^^^^
-  |
-  = note: this error originates in the derive macro `From` (in Nightly builds, run with -Z macro-backtrace for more info)

@@ -1,5 +1,5 @@
 Derives [`From`](https://doc.rust-lang.org/std/convert/trait.From.html) and [`TryFrom`](https://doc.rust-lang.org/std/convert/trait.TryFrom.html) implementations for types with similar shape.
-See [examples](./examples) for how to use it.
+See [examples](./dto_mapper/examples) for how to use it.
 
 Add to your `Cargo.toml`
 
@@ -11,7 +11,7 @@ dto_mapper = { git = "ssh://git@gitlab.procivis.ch:procivis/one/dto-mapper-rs.gi
 
 ## Mapping `Optional<T>` into `T`
 
-`unwrap_or`, `into_unwrap_or` and `from_unwrap_or` attributes can be used to map `Optional<T>` into `T` using default value.
+`unwrap_or` attributes can be used to map `Optional<T>` into `T` using default value.
 
 Example:
 
@@ -21,14 +21,14 @@ struct OptionalDto {
 }
 
 #[derive(From)]
-#[convert(from = OptionalDto)]
+#[from(OptionalDto)]
 struct FromOptionalDto {
-    #[convert(unwrap_or = "16")]
+    #[from(unwrap_or = "16")]
     age: u16,
 }
 ```
 
-`age` in `FromOptionalDto` will be set to `16` if original value is `None`. More examples can be found [here](examples/into_and_from/unwrap_or_value.rs) and [here](examples/try_into_and_try_from/unwrap_or_value.rs).
+`age` in `FromOptionalDto` will be set to `16` if original value is `None`. More examples can be found [here](./dto_mapper/examples/into_and_from/unwrap_or_value.rs) and [here](./dto_mapper/examples/try_into_and_try_from/unwrap_or_value.rs).
 
 This attribute cannot be combined with `with_fn` or `with_fn_ref` attributes.
 
@@ -43,17 +43,19 @@ struct PersonDto {
     name: String,
 }
 
-#[derive(From)]
-#[convert(into = PersonDto, from = PersonDto)]
+#[derive(Into, From)]
+#[into(PersonDto)]
+#[from(PersonDto)]
 struct AnotherPerson {
-    #[convert(rename = "name")]
+    #[into(rename = "name")]
+    #[from(rename = "name")]
     full_name: String,
 }
 ```
 
 In this case `full_name` will be mapped to `name`.
 
-More examples can be found [here](examples/into_and_from/rename.rs) and [here](examples/try_into_and_try_from/rename.rs).
+More examples can be found [here](./dto_mapper/examples/into_and_from/rename.rs) and [here](./dto_mapper/examples/try_into_and_try_from/rename.rs).
 
 ## Default value for field
 
@@ -67,22 +69,22 @@ struct PersonDto {
 }
 
 #[derive(From)]
-#[convert(from = PersonDto)]
+#[from(PersonDto)]
 struct FromPerson {
     name: String,
 
-    #[convert(replace = "0u16")]
+    #[from(replace = "0u16")]
     age: u16,
 }
 ```
 
 In this case `age` will be allways assigned `0` when `FromPerson` is created from `PersonDto`.
 
-More examples can be found [here](examples/into_and_from/replace.rs) and [here](examples/try_into_and_try_from/replace.rs).
+More examples can be found [here](./dto_mapper/examples/into_and_from/replace.rs) and [here](./dto_mapper/examples/try_into_and_try_from/replace.rs).
 
 # Failable conversions
 
-`TryFrom` and `TryInto` macros can be used to generate failable conversions using [`TryFrom`](https://doc.rust-lang.org/std/convert/trait.TryFrom.html) trait. They support the same feature set as `From` macro. Examples can be found [here](./examples/try_into_and_try_from).
+`TryFrom` and `TryInto` macros can be used to generate failable conversions using [`TryFrom`](https://doc.rust-lang.org/std/convert/trait.TryFrom.html) trait. They support the same feature set as `From` macro. Examples can be found [here](./dto_mapper/examples/try_into_and_try_from).
 
 ## Force infallible conversion
 
