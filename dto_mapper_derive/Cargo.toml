@@ -1,0 +1,17 @@
+[package]
+edition = "2021"
+name    = "dto_mapper_derive"
+publish = false
+version = "0.1.0"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+darling     = { version = "0.20.3" }
+proc-macro2 = { version = "1.0.78" }
+quote       = { version = "1.0.35" }
+syn         = { version = "2.0.48" }
+
+[dev-dependencies]
+trybuild = { version = "1.0.89", features = ["diff"] }

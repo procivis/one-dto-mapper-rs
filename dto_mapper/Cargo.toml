@@ -1,0 +1,9 @@
+[package]
+edition = "2021"
+name    = "dto_mapper"
+publish = false
+version = "0.1.0"
+
+[dependencies]
+dto_mapper_derive = { version = "0.1", path = "../dto_mapper_derive" }
+fmap              = { version = "0.8.3" }
