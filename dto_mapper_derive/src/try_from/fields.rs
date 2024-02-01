@@ -2,7 +2,9 @@ use darling::util::Flag;
 use darling::FromField;
 use quote::{format_ident, quote, ToTokens};
 
-use crate::common::fields::{generate_field_try_conversion, generate_unwrap_or};
+use crate::common::fields::{
+    generate_field_conversion, generate_field_try_conversion, generate_unwrap_or,
+};
 use crate::common::Codegen;
 
 #[derive(Debug, FromField)]
@@ -19,14 +21,9 @@ pub(crate) struct FieldsData {
 
 impl FieldsData {
     fn validate(self) -> darling::Result<Self> {
-        if self.infallible.is_present()
-            && (self.replace.is_some()
-                || self.with_fn.is_some()
-                || self.with_fn_ref.is_some()
-                || self.unwrap_or.is_some())
-        {
+        if self.infallible.is_present() && (self.replace.is_some() || self.unwrap_or.is_some()) {
             return Err(darling::Error::custom(
-                "`infallible` cannot be used with `replace`, `with_fn`, `with_fn_ref` or `unwrap_or`",
+                "`infallible` cannot be used with `replace` or `unwrap_or`",
             ));
         }
 
@@ -68,7 +65,7 @@ impl Codegen for FieldsData {
             .to_token_stream();
 
         let conversion = if self.infallible.is_present() {
-            quote!(#right_field_name.into())
+            generate_field_conversion(&right_field_name, &self.with_fn, &self.with_fn_ref)
         } else if let Some(expr) = &self.replace {
             quote!(#expr.into())
         } else if let Some(unwrap) = &self.unwrap_or {
