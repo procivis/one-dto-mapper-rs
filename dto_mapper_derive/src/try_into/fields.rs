@@ -2,7 +2,9 @@ use darling::util::Flag;
 use darling::FromField;
 use quote::{format_ident, quote, ToTokens};
 
-use crate::common::fields::{generate_field_try_conversion, generate_unwrap_or};
+use crate::common::fields::{
+    generate_field_conversion, generate_field_try_conversion, generate_unwrap_or,
+};
 use crate::common::Codegen;
 
 #[derive(Debug, FromField)]
@@ -31,12 +33,10 @@ impl FieldsData {
             ));
         }
 
-        if self.infallible.is_present()
-            && (self.with_fn.is_some() || self.with_fn_ref.is_some() || self.unwrap_or.is_some())
-        {
+        if self.infallible.is_present() && self.unwrap_or.is_some() {
             return Err(darling::Error::custom(
-            "`infallible` cannot be used with `replace`, `with_fn`, `with_fn_ref` or `unwrap_or`",
-        ));
+                "`infallible` cannot be used with `unwrap_or`",
+            ));
         }
 
         if self.unwrap_or.is_some() && (self.with_fn.is_some() || self.with_fn_ref.is_some()) {
@@ -83,7 +83,7 @@ impl Codegen for FieldsData {
         let ident = format_ident!("{ident}").to_token_stream();
 
         Some(if self.infallible.is_present() {
-            quote!(#ident.into())
+            generate_field_conversion(&ident, &self.with_fn, &self.with_fn_ref)
         } else if let Some(unwrap) = &self.unwrap_or {
             generate_unwrap_or(&ident, unwrap)
         } else {
