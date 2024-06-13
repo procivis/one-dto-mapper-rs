@@ -65,7 +65,7 @@ impl Codegen for FieldsData {
         let right_field_name = self.ident.as_ref().unwrap().to_token_stream();
 
         let conversion = if self.infallible.is_present() {
-            quote!(#right_field_name.into())
+            generate_field_conversion(&right_field_name, &self.with_fn, &self.with_fn_ref)
         } else if let Some(unwrap) = &self.unwrap_or {
             generate_unwrap_or(&right_field_name, unwrap)
         } else {
