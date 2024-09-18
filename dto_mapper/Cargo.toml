@@ -3,9 +3,12 @@ authors = ["Procivis"]
 edition = "2021"
 license = "Apache-2.0"
 name    = "dto_mapper"
-publish = false
+publish = true
 version = "0.1.0"
+description = "DTO mapper"
+repository = ""
+documentation = ""
 
 [dependencies]
-dto_mapper_derive = { version = "0.1", path = "../dto_mapper_derive" }
+dto_mapper_derive = { version = "0.1.0" }
 fmap              = { version = "0.8.3" }
