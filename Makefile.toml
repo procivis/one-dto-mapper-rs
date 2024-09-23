@@ -1,0 +1,10 @@
+[config]
+default_to_workspace = false
+
+[tasks.format]
+args      = ["fmt"]
+command   = "cargo"
+toolchain = "nightly"
+
+[tasks.fmt]
+alias = "format"

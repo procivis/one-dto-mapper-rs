@@ -1,4 +1,4 @@
-image: rust:1.74.0-slim-buster
+image: rust:1.81.0-slim-buster
 
 stages:
   - test
