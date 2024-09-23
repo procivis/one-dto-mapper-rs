@@ -1,7 +1,5 @@
-use std::{
-    collections::{BTreeMap, BTreeSet, BinaryHeap, HashMap, HashSet, LinkedList, VecDeque},
-    hash::Hash,
-};
+use std::collections::{BTreeMap, BTreeSet, BinaryHeap, HashMap, HashSet, LinkedList, VecDeque};
+use std::hash::Hash;
 
 /// Simplified Traversable typeclass that only supports [`Result`] as the outermost effect.
 pub trait TraversableResult<B> {
