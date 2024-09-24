@@ -3,8 +3,11 @@ authors = ["Procivis"]
 edition = "2021"
 license = "Apache-2.0"
 name    = "dto_mapper_derive"
-publish = false
-version = "0.1.0"
+publish = true
+version = "0.1.6"
+description = "DTO mapper"
+repository = "https://github.com/procivis/dto-mapper-rs"
+
 
 [lib]
 proc-macro = true
