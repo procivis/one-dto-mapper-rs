@@ -9,5 +9,5 @@ description = "DTO mapper"
 repository = "https://github.com/procivis/dto-mapper-rs"
 
 [dependencies]
-dto_mapper_derive = { version = "0.1.0" }
+dto_mapper_derive = { version = "0.1.0", path = "../dto_mapper_derive" }
 fmap              = { version = "0.8.3" }
