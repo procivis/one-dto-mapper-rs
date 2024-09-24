@@ -6,8 +6,7 @@ name    = "dto_mapper_derive"
 publish = true
 version = "0.1.0"
 description = "DTO mapper"
-repository = ""
-documentation = ""
+repository = "https://github.com/procivis/dto-mapper-rs"
 
 
 [lib]
