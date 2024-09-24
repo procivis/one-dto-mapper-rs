@@ -1,10 +1,10 @@
 Derives [`From`](https://doc.rust-lang.org/std/convert/trait.From.html) and [`TryFrom`](https://doc.rust-lang.org/std/convert/trait.TryFrom.html) implementations for types with similar shape.
-See [examples](./dto_mapper/examples) for how to use it.
+See [examples](./one-dto-mapper/examples) for how to use it.
 
 Add to your `Cargo.toml`
 
 ```toml
-dto_mapper = { git = "ssh://git@gitlab.procivis.ch:procivis/one/dto-mapper-rs.git" }
+one-dto-mapper = { git = "ssh://git@gitlab.procivis.ch:procivis/one/dto-mapper-rs.git" }
 ```
 
 # Infallible conversions
@@ -28,7 +28,7 @@ struct FromOptionalDto {
 }
 ```
 
-`age` in `FromOptionalDto` will be set to `16` if original value is `None`. More examples can be found [here](./dto_mapper/examples/into_and_from/unwrap_or_value.rs) and [here](./dto_mapper/examples/try_into_and_try_from/unwrap_or_value.rs).
+`age` in `FromOptionalDto` will be set to `16` if original value is `None`. More examples can be found [here](./one-dto-mapper/examples/into_and_from/unwrap_or_value.rs) and [here](./one-dto-mapper/examples/try_into_and_try_from/unwrap_or_value.rs).
 
 This attribute cannot be combined with `with_fn` or `with_fn_ref` attributes.
 
@@ -55,7 +55,7 @@ struct AnotherPerson {
 
 In this case `full_name` will be mapped to `name`.
 
-More examples can be found [here](./dto_mapper/examples/into_and_from/rename.rs) and [here](./dto_mapper/examples/try_into_and_try_from/rename.rs).
+More examples can be found [here](./one-dto-mapper/examples/into_and_from/rename.rs) and [here](./one-dto-mapper/examples/try_into_and_try_from/rename.rs).
 
 ## Default value for field
 
@@ -80,11 +80,11 @@ struct FromPerson {
 
 In this case `age` will be allways assigned `0` when `FromPerson` is created from `PersonDto`.
 
-More examples can be found [here](./dto_mapper/examples/into_and_from/replace.rs) and [here](./dto_mapper/examples/try_into_and_try_from/replace.rs).
+More examples can be found [here](./one-dto-mapper/examples/into_and_from/replace.rs) and [here](./one-dto-mapper/examples/try_into_and_try_from/replace.rs).
 
 # Failable conversions
 
-`TryFrom` and `TryInto` macros can be used to generate failable conversions using [`TryFrom`](https://doc.rust-lang.org/std/convert/trait.TryFrom.html) trait. They support the same feature set as `From` macro. Examples can be found [here](./dto_mapper/examples/try_into_and_try_from).
+`TryFrom` and `TryInto` macros can be used to generate failable conversions using [`TryFrom`](https://doc.rust-lang.org/std/convert/trait.TryFrom.html) trait. They support the same feature set as `From` macro. Examples can be found [here](./one-dto-mapper/examples/try_into_and_try_from).
 
 ## Force infallible conversion
 
