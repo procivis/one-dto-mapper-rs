@@ -1,0 +1,11 @@
+[package]
+authors = ["Procivis"]
+edition = "2021"
+license = "Apache-2.0"
+name    = "one-dto-mapper"
+publish = false
+version = "0.1.0"
+
+[dependencies]
+fmap                  = { version = "0.8.3" }
+one-dto-mapper-derive = { version = "0.1", path = "../one-dto-mapper-derive" }
