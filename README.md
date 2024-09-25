@@ -1,12 +1,6 @@
 Derives [`From`](https://doc.rust-lang.org/std/convert/trait.From.html) and [`TryFrom`](https://doc.rust-lang.org/std/convert/trait.TryFrom.html) implementations for types with similar shape.
 See [examples](./one-dto-mapper/examples) for how to use it.
 
-Add to your `Cargo.toml`
-
-```toml
-one-dto-mapper = { git = "ssh://git@gitlab.procivis.ch:procivis/one/dto-mapper-rs.git" }
-```
-
 # Infallible conversions
 
 ## Mapping `Optional<T>` into `T`
