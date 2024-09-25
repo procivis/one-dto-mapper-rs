@@ -1,5 +1,13 @@
 image: rust:1.81.0-slim-bookworm
 
+include:
+  - project: "procivis/one/one-operations"
+    file:
+      - "gitlab/github.gitlab-ci.yml"
+
+variables:
+  GITHUB_PROJECT: "procivis/one-dto-mapper-rs"
+
 .only_tag:
   rules:
     - if: $CI_COMMIT_TAG
@@ -12,6 +20,7 @@ image: rust:1.81.0-slim-bookworm
 stages:
   - test
   - linter
+  - github
   - publish
 
 tests:
@@ -25,14 +34,26 @@ linter:clippy:
     - rustup component add clippy
     - cargo clippy --lib --tests -- -D warnings
 
+github:push:
+  needs: []
+  extends:
+    - .github:push
+
+github:release:
+  extends:
+    - .github:release
+  needs:
+    - job: github:push
 
 publish:
   stage: publish
+  needs:
+    - job: github:push
   parallel:
     matrix:
       - PROJECT:
-        - dto_mapper
-        - dto_mapper_derive
+        - one-dto-mapper-derive
+        - one-dto-mapper
   script:
     - cd $PROJECT
     - cargo publish

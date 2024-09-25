@@ -7,6 +7,11 @@ publish = true
 version = "0.1.7"
 description = "One DTO mapper derive"
 repository = "https://github.com/procivis/one-dto-mapper-rs"
+documentation = "https://github.com/procivis/one-dto-mapper-rs"
+exclude = [
+    "tests/*",
+    "tests/**/*",
+]
 
 [lib]
 proc-macro = true
