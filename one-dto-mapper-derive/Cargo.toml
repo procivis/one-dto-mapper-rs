@@ -1,0 +1,19 @@
+[package]
+authors = ["Procivis"]
+edition = "2021"
+license = "Apache-2.0"
+name    = "one-dto-mapper-derive"
+publish = false
+version = "0.1.0"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+darling     = { version = "0.20.10" }
+proc-macro2 = { version = "1.0.86" }
+quote       = { version = "1.0.37" }
+syn         = { version = "2.0.77" }
+
+[dev-dependencies]
+trybuild = { version = "1.0.99", features = ["diff"] }
