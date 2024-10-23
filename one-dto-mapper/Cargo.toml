@@ -4,7 +4,7 @@ edition = "2021"
 license = "Apache-2.0"
 name    = "one-dto-mapper"
 publish = true
-version = "0.1.7"
+version = "0.1.8"
 description = "One DTO mapper"
 repository = "https://github.com/procivis/one-dto-mapper-rs"
 documentation = "https://github.com/procivis/one-dto-mapper-rs"
@@ -15,4 +15,4 @@ exclude = [
 
 [dependencies]
 fmap                  = { version = "0.8.3" }
-one-dto-mapper-derive = { version = "0.1.7", path = "../one-dto-mapper-derive" }
+one-dto-mapper-derive = { version = "0.1.8", path = "../one-dto-mapper-derive" }
