@@ -3,10 +3,11 @@ image: rust:1.81.0-slim-bookworm
 include:
   - project: "procivis/one/one-operations"
     file:
-      - "gitlab/github.gitlab-ci.yml"
+      - "gitlab/ci-tools.gitlab-ci.yml"
 
 variables:
   GITHUB_PROJECT: "procivis/one-dto-mapper-rs"
+  GITHUB_TAG_PATTERN: /^v[0-9]+\.[0-9]+\.[0-9]+$/
 
 .only_tag:
   rules:
@@ -22,6 +23,7 @@ stages:
   - linter
   - github
   - publish
+  - sync_with_jira
 
 tests:
   stage: test
@@ -35,20 +37,13 @@ linter:clippy:
     - cargo clippy --lib --tests -- -D warnings
 
 github:push:
-  needs: []
+  stage: github
   extends:
-    - .github:push
-
-github:release:
-  extends:
-    - .github:release
-  needs:
-    - job: github:push
+    - .ci-tool:open_source_release
 
 publish:
   stage: publish
-  needs:
-    - job: github:push
+  needs: []
   parallel:
     matrix:
       - PROJECT:
@@ -59,3 +54,8 @@ publish:
     - cargo publish
   extends:
     - .only_manual_tag
+
+set_jira_version:
+  stage: sync_with_jira
+  extends:
+    - .ci-tool:set_jira_version
