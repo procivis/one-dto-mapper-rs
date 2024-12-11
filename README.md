@@ -1,5 +1,5 @@
-![Procivis One](docs/assets/logo_dark_Procivis_One.png#gh-light-mode-only)
-![Procivis One](docs/assets/logo_light_Procivis_One.png#gh-dark-mode-only)
+![Procivis One](https://assets.procivis-one.com/static/logo/logo_dark_Procivis_One.png#gh-dark-mode-only)
+![Procivis One](https://assets.procivis-one.com/static/logo/logo_light_Procivis_One.png#gh-light-mode-only)
 
 # One DTO Mapper
 
@@ -118,11 +118,10 @@ Need support or have feedback? [Contact us](https://www.procivis.ch/en/contact).
 
 ## License
 
-Some rights reserved. This library is published under the [Apache License
-Version 2.0](./LICENSE).
+Some rights reserved. This library is published under the [Apache License Version 2.0](./LICENSE).
 
-![Procivis AG](docs/assets/logo_light_mode_Procivis.svg#gh-light-mode-only)
-![Procivis AG](docs/assets/logo_dark_mode_Procivis.svg#gh-dark-mode-only)
+![Procivis AG](https://assets.procivis-one.com/static/logo/logo_light_mode_Procivis.svg#gh-light-mode-only)
+![Procivis AG](https://assets.procivis-one.com/static/logo/logo_dark_mode_Procivis.svg#gh-dark-mode-only)
 
 © Procivis AG, [https://www.procivis.ch](https://www.procivis.ch).
 
