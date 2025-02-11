@@ -42,6 +42,19 @@ where
     outer.traverse(TryInto::try_into)
 }
 
+/// Same as [`convert_inner_of_inner`], but will apply [`TryInto::try_into`] instead
+#[allow(clippy::type_complexity)]
+pub fn try_convert_inner_of_inner<T, K, A>(
+    outer: T,
+) -> Result<T::Mapped, <<T::Inner as TraversableResult<A>>::Inner as TryInto<A>>::Error>
+where
+    T: TraversableResult<K>,
+    T::Inner: TraversableResult<A, Mapped = K>,
+    <T::Inner as TraversableResult<A>>::Inner: TryInto<A>,
+{
+    outer.traverse(|intermediate| intermediate.traverse(TryInto::try_into))
+}
+
 /// Same as [`iterable_into`], but will apply [`TryInto::try_into`] instead
 pub fn iterable_try_into<T, C, R>(input: C) -> Result<R, <C::Item as TryInto<T>>::Error>
 where
