@@ -6,7 +6,6 @@ include:
       - "gitlab/ci-tools.gitlab-ci.yml"
 
 variables:
-  GITHUB_PROJECT: "procivis/one-dto-mapper-rs"
   GITHUB_TAG_PATTERN: /^v[0-9]+\.[0-9]+\.[0-9]+$/
 
 .only_tag:
@@ -38,6 +37,9 @@ linter:clippy:
 
 github:push:
   stage: github
+  variables:
+    GITHUB_PROJECT: "procivis/one-dto-mapper-rs"
+    PROJECT: $CI_PROJECT_NAME
   extends:
     - .ci-tool:open_source_release
 
