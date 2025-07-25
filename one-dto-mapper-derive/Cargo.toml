@@ -1,17 +1,14 @@
 [package]
-authors = ["Procivis"]
-edition = "2021"
-license = "Apache-2.0"
-name    = "one-dto-mapper-derive"
-publish = true
-version = "0.1.9"
-description = "One DTO mapper derive"
-repository = "https://github.com/procivis/one-dto-mapper-rs"
+authors       = ["Procivis"]
+description   = "One DTO mapper derive"
 documentation = "https://github.com/procivis/one-dto-mapper-rs"
-exclude = [
-    "tests/*",
-    "tests/**/*",
-]
+edition       = "2021"
+exclude       = ["tests/*", "tests/**/*"]
+license       = "Apache-2.0"
+name          = "one-dto-mapper-derive"
+publish       = true
+repository    = "https://github.com/procivis/one-dto-mapper-rs"
+version       = "0.1.10"
 
 [lib]
 proc-macro = true

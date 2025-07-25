@@ -187,3 +187,17 @@ fn test_mixed_enum() {
 
     let _: SimpleY = x.into();
 }
+
+#[test]
+fn test_empty_struct() {
+    struct EmptySource {}
+
+    #[derive(From, Into)]
+    #[from(EmptySource)]
+    #[into(EmptySource)]
+    struct EmptyTarget {}
+
+    let source = EmptySource {};
+    let target: EmptyTarget = source.into();
+    let _back: EmptySource = target.into();
+}

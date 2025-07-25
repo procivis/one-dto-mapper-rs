@@ -1,18 +1,15 @@
 [package]
-authors = ["Procivis"]
-edition = "2021"
-license = "Apache-2.0"
-name    = "one-dto-mapper"
-publish = true
-version = "0.1.9"
-description = "One DTO mapper"
-repository = "https://github.com/procivis/one-dto-mapper-rs"
+authors       = ["Procivis"]
+description   = "One DTO mapper"
 documentation = "https://github.com/procivis/one-dto-mapper-rs"
-exclude = [
-    "examples/*",
-    "examples/**/*",
-]
+edition       = "2021"
+exclude       = ["examples/*", "examples/**/*"]
+license       = "Apache-2.0"
+name          = "one-dto-mapper"
+publish       = true
+repository    = "https://github.com/procivis/one-dto-mapper-rs"
+version       = "0.1.10"
 
 [dependencies]
 fmap                  = { version = "0.8.3" }
-one-dto-mapper-derive = { version = "0.1.9", path = "../one-dto-mapper-derive" }
+one-dto-mapper-derive = { version = "0.1.10", path = "../one-dto-mapper-derive" }

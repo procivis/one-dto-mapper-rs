@@ -76,12 +76,24 @@ impl ToTokens for TryFromInputReceiver {
                     .iter()
                     .filter_map(|entry| entry.generate_conversion());
 
+                let has_fields = !struct_data.is_empty();
+
+                let pattern = if has_fields {
+                    quote! {
+                        #from_ident {
+                            #(#names),*,
+                            ..
+                        }
+                    }
+                } else {
+                    quote! {
+                        #from_ident { .. }
+                    }
+                };
+
                 quote! {
                     match __value {
-                        #from_ident {
-                            #(#names),*
-                            ,..
-                        } => Self {
+                        #pattern => Self {
                             #(#conversions),*
                         }
                     }
